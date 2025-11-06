@@ -68,8 +68,8 @@ def extraer_pais(consulta_usuario)->str:
       - Devuelve solo el nombre del pais sin ningun otro comentario adicional
       - Si no podes indentificar el pais responde con "Pais no identificado"
    """
+   
    retorno = bot.talk(system_prompt)
-
    return retorno
 
     
@@ -226,7 +226,7 @@ def main():
          # TODO: Llamar al agente con la consulta
          respuesta = agente_paises(consulta, _nueva_consulta)
          _nueva_consulta = False
-         
+
          # TODO: Mostrar la respuesta
          print(f"\n🤖 Agente: {respuesta}")
          print("\n" + "-" * 80)
