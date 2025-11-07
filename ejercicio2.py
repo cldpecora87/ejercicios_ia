@@ -49,7 +49,7 @@ from chatbot import ChatBot
 import requests    
 
 bot = ChatBot(temperature=0.1, memory= True)
-_pais:str = None
+_pais:str|None = None
 
 def extraer_pais(consulta_usuario)->str:
    """
@@ -141,7 +141,7 @@ def formatear_respuesta(consulta_usuario, datos_pais):
    return bot.talk(prompt)
 
 
-def agente_paises(consulta_usuario, nueva_consulta:bool=False):
+def agente_paises(consulta_usuario):
    """
    Función principal del agente que orquesta todo el flujo.
    
@@ -158,7 +158,7 @@ def agente_paises(consulta_usuario, nueva_consulta:bool=False):
    # PASO 1: Extraer el país de la consulta
    print("📍 Paso 1: Identificando el país...")
    
-   if nueva_consulta or _pais is None:
+   if _pais is None:
       pais = extraer_pais(consulta_usuario)
    else:
       pais = _pais
@@ -190,6 +190,8 @@ def agente_paises(consulta_usuario, nueva_consulta:bool=False):
 
 def main():
    _nueva_consulta:bool = False
+   global _pais
+    
    print("=" * 80)
    print("🌎 AGENTE DE INFORMACIÓN DE PAÍSES")
    print("=" * 80)
@@ -220,13 +222,14 @@ def main():
       # TODO: Verificar que la consulta no esté vacía
       if not consulta or consulta.lower() == 'n':
          print("⚠️  Por favor, escribe una consulta.")
-         
+         _pais = None
 
       else:
          # TODO: Llamar al agente con la consulta
-         respuesta = agente_paises(consulta, _nueva_consulta)
+         respuesta = agente_paises(consulta)
          _nueva_consulta = False
-
+         
+         
          # TODO: Mostrar la respuesta
          print(f"\n🤖 Agente: {respuesta}")
          print("\n" + "-" * 80)
